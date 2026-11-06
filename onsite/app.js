@@ -3,6 +3,7 @@
  const chapters=[...document.querySelectorAll('article.chapter')];
  const ids=chapters.map(chapter=>chapter.id);
  const labels=['Overview','Funding','Economics','Team & ownership','Mandates','Delivery & KPIs','Ecosystem'];
+ const shortLabels=['Overview','Funding','Economics','Team','Mandates','Delivery','Ecosystem'];
  const back=document.getElementById('back-button');
  const next=document.getElementById('next-button');
  const select=document.getElementById('chapter-select');
@@ -16,7 +17,9 @@
    if(link.hash==='#'+ids[active])link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');
   });
   select.value=ids[active];back.disabled=active===0;next.disabled=active===ids.length-1;
-  document.getElementById('progress-label').textContent=labels[active]+' · '+(active+1)+' / '+ids.length;
+  const progressName=document.createElement('span');progressName.className='progress-name';progressName.textContent=shortLabels[active];
+  const progressCount=document.createElement('span');progressCount.className='progress-count';progressCount.textContent=(active+1)+' of '+ids.length;
+  document.getElementById('progress-label').replaceChildren(progressName,document.createTextNode(' '),progressCount);
   document.title=labels[active]+' — Alatau Onsite';
   window.scrollTo({top:0,behavior:'instant'});
   if(focus)chapters[active].querySelector('h1').focus({preventScroll:true});
